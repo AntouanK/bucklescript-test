@@ -1,0 +1,17 @@
+{
+  "name": "bucklescript-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "clear && date && echo '' && bsb",
+    "watch": "bsb -w"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bs-platform": "^1.4.1",
+    "consologger": "^1.1.0"
+  }
+}
