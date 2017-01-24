@@ -17,7 +17,7 @@ external toIsoString : date -> string = "toISOString" [@@bs.send]
 
 (* main *)
 let () =
-  let logger = Logger.makeNew in
+  let logger = Logger.makeNew () in
   Logger.text logger "[test]" ;
   Logger.green logger "Success" ;
 
