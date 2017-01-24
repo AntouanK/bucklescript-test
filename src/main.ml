@@ -1,13 +1,28 @@
+(* Promise *)
+module Promise =
+  struct
+    type 'a promiseT
+    type errorT
+    external thenDo : 'a promiseT -> ('a -> 'b) -> 'b promiseT = "then" [@@bs.send ]
+    external catchError : 'a promiseT -> (errorT -> unit) -> 'a promiseT = "catch"[@@bs.send ]
+  end
 
-type t
+(* date *)
+type date
 
-external consologger : unit -> t = "consologger" [@@bs.module][@@bs.new]
-external text : t -> string -> unit = "text" [@@bs.send]
-external green : t -> string -> unit = "green" [@@bs.send]
-external print : t -> unit = "print" [@@bs.send]
+external newDate : string -> date = "Date" [@@bs.new]
+external now : unit -> string = "Date.now" [@@bs.val]
+external toIsoString : date -> string = "toISOString" [@@bs.send]
 
+
+(* main *)
 let () =
-  let logger = consologger () in
-  text logger "[test]" ;
-  green logger "Success" ;
-  print logger ;
+  let logger = Logger.makeNew in
+  Logger.text logger "[test]" ;
+  Logger.green logger "Success" ;
+
+  now ()
+  |> newDate
+  |> toIsoString
+  |> Logger.blue logger
+  |> Logger.print ;
