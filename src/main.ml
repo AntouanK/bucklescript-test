@@ -1,3 +1,4 @@
+
 (* Promise *)
 module Promise =
   struct
@@ -14,12 +15,11 @@ external newDate : string -> date = "Date" [@@bs.new]
 external now : unit -> string = "Date.now" [@@bs.val]
 external toIsoString : date -> string = "toISOString" [@@bs.send]
 
-
 (* main *)
 let () =
   let logger = Logger.makeNew () in
   Logger.text logger "[test]" ;
-  Logger.green logger "Success" ;
+  Logger.green logger "Success with modules" ;
 
   now ()
   |> newDate
