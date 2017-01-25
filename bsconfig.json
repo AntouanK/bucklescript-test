@@ -1,5 +1,5 @@
 {
-  "name" : "hello",
+  "name" : "bs-test",
   "sources" : { "dir" :  "src"},
   "generate-merlin": true
 }
