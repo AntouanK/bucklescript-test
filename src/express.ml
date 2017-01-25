@@ -38,7 +38,7 @@ module Express =
 
     external static :
       root:string
-      (*-> ?options:staticOptions*)
+      -> ?options:staticOptions
       -> middlewareT
       = ""[@@bs.module "express"]
 
