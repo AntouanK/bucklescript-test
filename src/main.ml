@@ -20,18 +20,25 @@ external toIsoString : date -> string = "toISOString" [@@bs.send]
 (* main *)
 let () =
   let logger = Logger.makeNew () in
-  Logger.text logger "[test]" ;
-  Logger.green logger "Success with modules" ;
+  let printNow () =
+    now ()
+    |> newDate
+    |> toIsoString
+    |> Logger.blue logger
+    |> Logger.print;
+  in
+  let logSuccess () =
+    Logger.green logger "Express server listening" ;
+    printNow () ;
+  in
 
   let app = Express.express () in
 
-  now ()
-  |> newDate
-  |> toIsoString
-  |> Logger.blue logger
-  |> Logger.print ;
+  Logger.text logger "[test]" ;
+  printNow () ;
 
-  Express.listen app ~port:3210 () ;
+
+  Express.listen app ~port:3210 ~hostname:"localhost" ~callback:logSuccess ();
 
 (*
 var express = require('express')

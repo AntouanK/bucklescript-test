@@ -8,6 +8,7 @@ r4="s/^FAILED:/$ESC[38;5;196mFAILED:$ESC[m/g" ;
 r5="s/>>>> Finish compiling/$ESC[38;5;47m>>>> Finish compiling$ESC[m/g" ;
 r6="s/line \([0-9]*\), characters \([[:graph:]]*\)/$ESC[38;5;208mline \1, characters \2$ESC[m/g" ;
 r7="s/build stopped: subcommand failed\./$ESC[38;5;196mbuild stopped: subcommand failed.$ESC[m/g"
+r8="s/Warning:/$ESC[38;5;226mWarning:$ESC[m/g" ;
 
 npm run watch -s | \
-  sed -e "$r1" -e "$r2" -e "$r3" -e "$r4" -e "$r5" -e "$r6" -e "$r7"
+  sed -e "$r1" -e "$r2" -e "$r3" -e "$r4" -e "$r5" -e "$r6" -e "$r7" -e "$r8"
