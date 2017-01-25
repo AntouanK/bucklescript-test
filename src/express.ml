@@ -18,11 +18,17 @@ module Express =
     external express : unit -> expressApp = ""[@@bs.module ]
     external use : expressApp -> middlewareT -> unit = ""[@@bs.send ]
     external static : path:string -> middlewareT = ""[@@bs.module "express"]
-    external get : expressApp -> string -> ('a -> Response.t -> ((unit)[@bs ])) -> unit = "" [@@bs.send ]
+    external get :
+      expressApp
+      -> string
+      -> (Request.t -> Response.t -> Next.t -> (unit[@bs ]))
+      -> unit
+      = "" [@@bs.send ]
     external listen :
       expressApp
       -> ?port:int
       -> ?hostname:string
       -> ?callback:(unit -> unit)
-      -> unit -> unit = ""[@@bs.send ]
+      -> unit -> unit
+      = ""[@@bs.send ]
   end
