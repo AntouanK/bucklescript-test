@@ -13,20 +13,45 @@ module Response =
 module Express =
   struct
     type expressApp
-    type middlewareT = Request.t -> Response.t -> Next.t -> ((unit)[@bs ])
+    type staticOptions =
+      { dotfiles      : string;
+        etag          : bool;
+        extensions    : bool;
+        fallthrough   : bool;
+        lastModified  : bool;
+        maxAge        : int;
+        redirect      : bool;
+      };;
 
-    external express : unit -> expressApp = ""[@@bs.module ]
-    external use : expressApp -> middlewareT -> unit = ""[@@bs.send ]
-    external static : path:string -> middlewareT = ""[@@bs.module "express"]
+    type middlewareT = Request.t -> Response.t -> Next.t -> unit
+
+    external express :
+      unit
+      -> expressApp
+      = ""[@@bs.module ]
+
+    external use :
+      expressApp
+      -> middlewareT
+      -> unit
+      = ""[@@bs.send ]
+
+    external static :
+      root:string
+      (*-> ?options:staticOptions*)
+      -> middlewareT
+      = ""[@@bs.module "express"]
+
     external get :
       expressApp
       -> string
-      -> (Request.t -> Response.t -> Next.t -> (unit[@bs ]))
+      -> (Request.t -> Response.t -> Next.t -> unit)
       -> unit
       = "" [@@bs.send ]
+
     external listen :
       expressApp
-      -> ?port:int
+      -> port:int
       -> ?hostname:string
       -> ?callback:(unit -> unit)
       -> unit -> unit

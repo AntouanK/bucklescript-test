@@ -2,6 +2,8 @@
 open Logger
 open Express
 
+external dirname : string = "__dirname" [@@bs.val]
+
 (* Promise *)
 module Promise =
   struct
@@ -25,6 +27,7 @@ let printNow logger =
   |> Logger.blue logger
   |> Logger.print ;;
 
+let serverPort = 3210;;
 
 (* main *)
 let () =
@@ -35,20 +38,28 @@ let () =
   in
   let app = Express.express () in
 
-  Logger.text logger "[test]"
+  Logger.text logger @@ "[test] " ^ dirname
   |> printNow ;
 
   let testHandler (req:Request.t) (res:Response.t) (next:Next.t) =
     Response.json res [%bs.obj {root = 1}] ;
   in
 
+  (* set a GET route at /text *)
   Express.get
     app
     "/test"
     testHandler ;
 
+
+  (* set the static server *)
+  Express.use
+    app
+    @@ Express.static ~root:dirname ;
+
+  (* start the Express server *)
   Express.listen
     app
-    ~port:3210
+    ~port:serverPort
     ~callback:logSuccess
     ();
