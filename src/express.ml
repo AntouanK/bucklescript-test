@@ -4,7 +4,11 @@ module Next = struct type t end
 
 module Request =
   struct
-    type t
+    type reqBody
+
+    type t =
+      < body : reqBody
+      > Js.t
   end
 
 module Response =
@@ -30,13 +34,13 @@ module Express =
   struct
     type expressApp
     type staticOptions =
-      < dotfiles : string;
-        etag : bool;
-        extensions : bool;
-        fallthrough : bool;
-        lastModified : bool;
-        maxAge : int;
-        redirect : bool
+      < dotfiles : string
+      ; etag : bool
+      ; extensions : bool
+      ; fallthrough : bool
+      ; lastModified : bool
+      ; maxAge : int
+      ; redirect : bool
       >
       Js.t;;
 

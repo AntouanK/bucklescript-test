@@ -4,7 +4,6 @@ open Express
 open BodyParser
 open Date
 
-external dirname : string = "__dirname" [@@bs.val]
 
 let printNow logger =
   Date.now ()
@@ -28,7 +27,9 @@ let () =
     Response.json res [%bs.obj {root = 1}] ;
   in
   let counterUpHandler (req:Request.t) (res:Response.t) (next:Next.t) =
-    Response.json res [%bs.obj {root = 1}] ;
+    let body = req##body in
+    (* increase a field of the body that has a number *)
+    Response.json res body ;
   in
 
   (* set a GET route at /text *)
@@ -57,13 +58,15 @@ let () =
       }
     ]
   in
+  let dirname =
+    match Js.Undefined.to_opt [%bs.node __dirname] with
+    | None -> "./"
+    | Some x -> x
+  in
+
   Express.use
     app
     @@ Express.static ~root:dirname ~options:staticOptions ;
 
   (* start the Express server *)
-  Express.listen
-    app
-    ~port:serverPort
-    ~callback:logSuccess
-    ();
+  Express.listen app ~port:serverPort ~callback:logSuccess ();
