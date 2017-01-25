@@ -1,27 +1,44 @@
-(* express *)
+(* express / npm *)
 
 module Next = struct type t end
-module Request = struct type t end
+
+module Request =
+  struct
+    type t
+  end
+
 module Response =
   struct
     type t
 
-    external sendFile : t -> string -> 'a -> unit = ""[@@bs.send ]
-    external json : t -> 'a -> unit = ""[@@bs.send ]
+    external sendFile
+      : t
+      -> string
+      -> 'a
+      -> unit
+      = ""[@@bs.send ]
+
+    external json
+      : t
+      -> 'a
+      -> unit
+      = ""[@@bs.send ]
+
   end
 
 module Express =
   struct
     type expressApp
     type staticOptions =
-      { dotfiles      : string;
-        etag          : bool;
-        extensions    : bool;
-        fallthrough   : bool;
-        lastModified  : bool;
-        maxAge        : int;
-        redirect      : bool;
-      };;
+      < dotfiles : string;
+        etag : bool;
+        extensions : bool;
+        fallthrough : bool;
+        lastModified : bool;
+        maxAge : int;
+        redirect : bool
+      >
+      Js.t;;
 
     type middlewareT = Request.t -> Response.t -> Next.t -> unit
 
@@ -45,7 +62,14 @@ module Express =
     external get :
       expressApp
       -> string
-      -> (Request.t -> Response.t -> Next.t -> unit)
+      -> middlewareT
+      -> unit
+      = "" [@@bs.send ]
+
+    external post :
+      expressApp
+      -> string
+      -> middlewareT
       -> unit
       = "" [@@bs.send ]
 

@@ -4,13 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "clear && date && echo '' && bsb",
-    "watch": "bsb -w"
+    "build": "bsb",
+    "watch": "bsb -w",
+    "start": "node ./lib/js/src/main.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Antonis Karamitros @antouank",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.16.0",
     "bs-platform": "^1.4.1",
     "consologger": "^1.1.0",
     "express": "^4.14.0"
