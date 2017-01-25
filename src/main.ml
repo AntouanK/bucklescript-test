@@ -51,11 +51,21 @@ let () =
     "/test"
     testHandler ;
 
-
   (* set the static server *)
+  let staticOptions =
+    let open Express in
+    { dotfiles      = "ignore";
+      etag          = true;
+      extensions    = false;
+      fallthrough   = true;
+      lastModified  = true;
+      maxAge        = 0;
+      redirect      = false;
+    }
+  in
   Express.use
     app
-    @@ Express.static ~root:dirname ;
+    @@ Express.static ~root:dirname ~options:staticOptions ;
 
   (* start the Express server *)
   Express.listen
