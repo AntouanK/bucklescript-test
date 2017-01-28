@@ -1,6 +1,9 @@
 (* express / npm *)
 
-module Next = struct type t end
+module Next =
+  struct
+    type t
+  end
 
 module Request =
   struct
@@ -27,7 +30,6 @@ module Response =
       -> 'a
       -> unit
       = ""[@@bs.send ]
-
   end
 
 module Express =

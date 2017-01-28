@@ -1,9 +1,8 @@
 
 open Logger
 open Express
-open BodyParser
 open Date
-
+open BodyParser
 
 let printNow logger =
   Date.now ()
@@ -12,7 +11,7 @@ let printNow logger =
   |> Logger.blue logger
   |> Logger.print ;;
 
-let serverPort = 3210;;
+let serverPort = 3210 ;;
 
 
 (* main *)
@@ -26,8 +25,9 @@ let () =
   let testHandler (req:Request.t) (res:Response.t) (next:Next.t) =
     Response.json res [%bs.obj {root = 1}] ;
   in
-  let counterUpHandler (req:Request.t) (res:Response.t) (next:Next.t) =
+  let counterIncreaseHandler (req:Request.t) (res:Response.t) (next:Next.t) =
     let body = req##body in
+    Js.log body ;
     (* increase a field of the body that has a number *)
     Response.json res body ;
   in
@@ -35,14 +35,12 @@ let () =
   (* set a GET route at /text *)
   Express.get app "/test" testHandler ;
 
-  (* set a POST route at /counterUp *)
-  let counterUpRoute =
-    Express.post app "/counterUp"
+  (* set a POST route at /counter-increase *)
+  let counterIncreaseRoute =
+    Express.post app "/counter-increase"
   in
-  (* first use body-parser to parse the incoming request body *)
-  counterUpRoute @@ BodyParser.json () ;
-  (* then pass the final middleware to that route *)
-  counterUpRoute counterUpHandler ;
+  counterIncreaseRoute @@ BodyParser.jsonText () ;
+  counterIncreaseRoute counterIncreaseHandler ;
 
   (* set the static server *)
   let staticOptions =

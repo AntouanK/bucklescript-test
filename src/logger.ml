@@ -4,7 +4,6 @@ module Logger =
   struct
     type logger
 
-
     external makeNew :
       unit
       -> logger
